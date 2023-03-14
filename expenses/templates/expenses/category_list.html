@@ -7,6 +7,7 @@
 	<thead>
 		<tr>
 			<th>name</th>
+			<th>number of expenses</th>
 			<th>actions</th>
 		</tr>
 	</thead>
@@ -15,6 +16,9 @@
 		<tr>
 			<td>
 				{{obj.name}}
+			</td>
+			<td>
+				{{ obj.expense_set.count }}
 			</td>
 			<td>
 				<a href="{% url 'expenses:category-delete' obj.id %}">delete</a>

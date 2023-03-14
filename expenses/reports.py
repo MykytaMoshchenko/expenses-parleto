@@ -13,4 +13,3 @@ def summary_per_category(queryset):
         .annotate(s=Sum('amount'))
         .values_list('category_name', 's')
     ))
-
