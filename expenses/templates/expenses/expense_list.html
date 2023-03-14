@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<a href="{% url 'expenses:expense-create' %}">add</a>
+
+<form method="get" action="">
+  {{form.as_p}}
+  <button type="submit">search</button>
+</form>
+<br>
+<table border="1">
+	<caption>Expenses</caption>
+	<thead>
+	  <tr>
+		<th>no.</th>
+		<th>category</th>
+		<th>name</th>
+		<th>amount</th>
+		<th>date</th>
+		<th>actions</th>
+	  </tr>
+	</thead>
+	<tbody>
+
+	{% for obj in object_list %}
+	  <tr>
+		<td>{{ page_obj.start_index|add:forloop.counter0 }}.</td>
+		<td>{{ obj.category|default:"-" }}</td>
+		<td>{{ obj.name|default:"-" }}</td>
+		<td>{{ obj.amount|floatformat:2 }}</td>
+		<td>{{obj.date}}</td>
+		<td>
+		  <a href="{% url 'expenses:expense-edit' obj.id %}">edit</a>
+		  <a href="{% url 'expenses:expense-delete' obj.id %}">delete</a>
+		</td>
+	  </tr>
+	  {% empty %}
+	  <tr>
+		<td colspan="5">no items</td>
+	  </tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{% include "_pagination.html" %}
+<hr>
+<table border="1">
+  <caption>Summary per category</caption>
+  <tr>
+    {% for category, total in summary_per_category.items %}
+	<tr>
+		<td>{{category}}:</td>
+		<td>{{total|floatformat:2}}</td>
+	</tr>
+	{% endfor %}
+  </tr>
+</table>
+{% endblock %}
