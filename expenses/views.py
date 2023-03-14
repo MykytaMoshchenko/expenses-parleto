@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.db.models import Sum
 from django.db.models.functions import TruncYear, TruncMonth
+from django.views import generic
 from django.views.generic.list import ListView
 
 from .forms import ExpenseSearchForm
@@ -74,3 +75,8 @@ class ExpenseListView(ListView):
 class CategoryListView(ListView):
     model = Category
     paginate_by = 5
+
+
+class CategoryDetailView(generic.DetailView):
+    model = Category
+    queryset = Category.objects.all()
