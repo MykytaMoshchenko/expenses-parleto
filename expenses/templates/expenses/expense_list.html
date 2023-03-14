@@ -56,7 +56,30 @@
 	{% endfor %}
 	</tbody>
 </table>
-
+  <br>
+{% if summary_per_month %}
+<table border="1">
+  <caption>Total Summary per Year-Month</caption>
+  <thead>
+    <tr>
+      <th>Year-Month</th>
+      <th>Total Amount Spent</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for summary in summary_per_month %}
+      <tr>
+        <td>{{ summary.year|date:"Y" }}-{{ summary.month|date:"m" }}</td>
+        <td>{{ summary.total|floatformat:2 }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="2">No data available</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
 <p>Total amount spent: {{ total_amount|floatformat:2 }}</p>
 
 {% include "_pagination.html" %}

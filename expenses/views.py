@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.db.models import Sum
+from django.db.models.functions import TruncYear, TruncMonth
 from django.views.generic.list import ListView
 
 from .forms import ExpenseSearchForm
@@ -54,11 +55,19 @@ class ExpenseListView(ListView):
 
         total_amount = queryset.aggregate(Sum('amount'))['amount__sum'] or 0
 
+        summary_per_month = (
+            queryset.annotate(year=TruncYear('date'), month=TruncMonth('date'))
+            .values('year', 'month')
+            .annotate(total=Sum('amount'))
+            .order_by('-year', '-month')
+        )
+
         return super().get_context_data(
             form=form,
             object_list=queryset,
             summary_per_category=summary_per_category(queryset),
             total_amount=total_amount,
+            summary_per_month=summary_per_month,
             **kwargs)
 
 
