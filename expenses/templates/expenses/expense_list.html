@@ -8,7 +8,21 @@
   {{form.as_p}}
   <button type="submit">search</button>
 </form>
+
+{% if sort_field %}
+  <p>Sorting by {{ sort_field }} in {{ sort_order }} order. <a href="?">Clear</a></p>
+{% endif %}
+
+<p>
+  Sort by:
+  <a href="?sort=category&order={{ sort_order }}">Category</a> |
+  <a href="?sort=-category&order={{ sort_order }}">Category descending</a> |
+  <a href="?sort=date&order={{ sort_order }}">Date</a> |
+  <a href="?sort=-date&order={{ sort_order }}">Date descending</a>
+</p>
+
 <br>
+
 <table border="1">
 	<caption>Expenses</caption>
 	<thead>
@@ -42,6 +56,8 @@
 	{% endfor %}
 	</tbody>
 </table>
+
+<p>Total amount spent: {{ total_amount|floatformat:2 }}</p>
 
 {% include "_pagination.html" %}
 <hr>
